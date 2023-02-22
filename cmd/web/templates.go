@@ -10,8 +10,9 @@ import (
 
 type templateData struct {
 	CurrentYear int
-	Snippet *models.Snippet
-	Snippets []*models.Snippet
+	Snippet     *models.Snippet
+	Snippets    []*models.Snippet
+	Form        any
 }
 
 func humanDate(t time.Time) string {
@@ -45,7 +46,7 @@ func newTemplateCache() (map[string]*template.Template, error) {
 
 		ts, err = ts.ParseFiles(page)
 		if err != nil {
-			return nil ,err
+			return nil, err
 		}
 
 		cache[name] = ts
