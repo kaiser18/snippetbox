@@ -7,8 +7,8 @@ import (
 )
 
 type Snippet struct {
-	ID int
-	Title string
+	ID      int
+	Title   string
 	Content string
 	Created time.Time
 	Expires time.Time
@@ -16,6 +16,12 @@ type Snippet struct {
 
 type SnippetModel struct {
 	DB *sql.DB
+}
+
+type SnippetModelInterface interface {
+	Insert(title string, content string, expires int) (int, error)
+	Get(id int) (*Snippet, error)
+	Latest() ([]*Snippet, error)
 }
 
 func (m *SnippetModel) Insert(title string, content string, expires int) (int, error) {
@@ -77,7 +83,7 @@ func (m *SnippetModel) Latest() ([]*Snippet, error) {
 		snippets = append(snippets, s)
 	}
 
-	if err = rows.Err(); err != nil  {
+	if err = rows.Err(); err != nil {
 		return nil, err
 	}
 
